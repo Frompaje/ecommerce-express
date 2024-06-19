@@ -1,11 +1,13 @@
-import express, { Express, Request, Response } from "express";
+import express from "express";
+import { env } from "./env";
+import { rootRouter } from "./routes";
 
 const app = express();
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World");
-});
+app.use(express.json());
 
-app.listen(3000, () => {
+rootRouter(app);
+
+app.listen(env.PORT, () => {
   console.log("Server is Running, on port: 3000");
 });
