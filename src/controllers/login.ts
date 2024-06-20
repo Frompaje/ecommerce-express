@@ -8,13 +8,13 @@ import { UserDoesNotExist } from "../error/user-does-not-exist-error";
 import { prisma } from "../lib/prisma";
 
 export async function login(req: Request, res: Response) {
-  const signUpSchema = z.object({
+  const loginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
   });
 
   try {
-    const { email, password } = signUpSchema.parse(req.body);
+    const { email, password } = loginSchema.parse(req.body);
 
     const user = await prisma.user.findFirst({
       where: {
@@ -57,13 +57,11 @@ export async function login(req: Request, res: Response) {
         message: error.message,
       });
     }
-
     if (error instanceof InvalidCredentialsError) {
       return res.status(400).send({
         message: error.message,
       });
     }
-
     return res.status(500).send({ message: "Internal server error" });
   }
 }
