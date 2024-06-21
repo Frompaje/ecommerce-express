@@ -15,15 +15,7 @@ export class UserController {
     try {
       const { name, email, password } = signUpSchema.parse(req.body);
 
-      const userWithSameEmail = await prisma.user.findFirst({
-        where: {
-          email: email,
-        },
-      });
 
-      if (userWithSameEmail) {
-        throw new UserAlreadyExistsError();
-      }
 
       const passwordHashed = await hash(password, 6);
 

@@ -1,18 +1,23 @@
-import { unwatchFile } from "fs";
+import { hash } from "bcryptjs";
 import { UserAlreadyExistsError } from "../error/user-already-exists-error";
-import { ModelUserRepository, UserInputCreate, UserInputId, UserInputUpdate, UserInputUpdateEmail, UserInputUpdatePassword } from "../model/model-repository";
+import { ModelUserRepository, UserInputCreate, UserInputId, UserInputIdEmail, UserInputUpdate, UserInputUpdatePassword } from "../model/model-repository";
 
 export class UserProduct {
   constructor(private readonly userRepository: ModelUserRepository) { }
 
   async create({ name, email, password }: UserInputCreate) {
-    const user = await this.userRepository.create({
-      name, email, password
-    })
+    const isEmailExist = await this.userRepository.findByEmail({ email })
 
-    if (user) {
+    if (isEmailExist) {
       throw new UserAlreadyExistsError()
     }
+
+    const passwordHashed = await hash(password, 6);
+
+    const user = await this.userRepository.create({
+      name, email, password: passwordHashed
+    })
+
     return user
   }
 
@@ -41,7 +46,7 @@ export class UserProduct {
     return user
   }
 
-  async updateEmail({ id, email }: UserInputUpdateEmail) {
+  async updateEmail({ id, email }: UserInputIdEmail) {
     const isUserExist = await this.userRepository.findById({ id })
 
     if (!isUserExist) {

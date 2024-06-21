@@ -1,5 +1,5 @@
 import { prisma } from "../../../lib/prisma";
-import { ModelUserRepository, UserInputCreate, UserInputId, UserInputUpdate, UserInputUpdateEmail, UserInputUpdatePassword } from "../model/model-repository";
+import { ModelUserRepository, UserInputCreate, UserInputEmail, UserInputId, UserInputIdEmail, UserInputUpdate, UserInputUpdatePassword } from "../model/model-repository";
 
 export class PrismaUserRepository implements ModelUserRepository {
   create({ name, email, password }: UserInputCreate) {
@@ -21,6 +21,12 @@ export class PrismaUserRepository implements ModelUserRepository {
       where: { id }
     })
   }
+  findByEmail({ email }: UserInputEmail) {
+    return prisma.user.findFirst({
+      where: { email }
+    })
+  }
+
   update({ id, name }: UserInputUpdate) {
     return prisma.user.update({
       data: { name },
@@ -28,7 +34,7 @@ export class PrismaUserRepository implements ModelUserRepository {
     })
   }
 
-  updateEmail({ id, email }: UserInputUpdateEmail) {
+  updateEmail({ id, email }: UserInputIdEmail) {
     return prisma.user.update({
       data: {
         email
