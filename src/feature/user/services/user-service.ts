@@ -64,7 +64,10 @@ export class UserService {
       throw new UserAlreadyExistsError()
     }
 
-    const updatePassword = await this.userRepository.updatePassword({ id, password })
+    const newPasswordHashed = await hash(password, 6);
+
+
+    const updatePassword = await this.userRepository.updatePassword({ id, password: newPasswordHashed })
     return updatePassword
   }
 }

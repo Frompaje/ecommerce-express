@@ -17,9 +17,7 @@ export class AuthController {
       const { email, password } = loginSchema.parse(req.body);
       const authService = authServiceRepositoryFactory()
 
-
       const user = await authService.login({ email, password })
-
 
       const token = jwt.sign(
         {
