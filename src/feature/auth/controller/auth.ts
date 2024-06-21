@@ -1,11 +1,10 @@
-import { compareSync } from "bcryptjs";
 import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { ZodError, z } from "zod";
 import { env } from "../../../env";
-import { InvalidCredentialsError } from "../../../error/invalid-credential-error";
 import { UserDoesNotExist } from "../../user/error/user-does-not-exist-error";
-import { prisma } from "../../../lib/prisma";
+import { InvalidCredentialsError } from "../error/invalid-credential-error";
+import { authServiceRepositoryFactory } from "./factory/auth-services-repository-factory";
 
 export class AuthController {
   async login(req: Request, res: Response) {
@@ -16,22 +15,11 @@ export class AuthController {
 
     try {
       const { email, password } = loginSchema.parse(req.body);
+      const authService = authServiceRepositoryFactory()
 
-      const user = await prisma.user.findFirst({
-        where: {
-          email: email,
-        },
-      });
 
-      if (!user) {
-        throw new UserDoesNotExist();
-      }
+      const user = await authService.login({ email, password })
 
-      const isSamePassword = compareSync(password, user.password);
-
-      if (!isSamePassword) {
-        throw new InvalidCredentialsError();
-      }
 
       const token = jwt.sign(
         {
