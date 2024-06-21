@@ -7,7 +7,8 @@ const productRouter: Router = Router();
 const productController = productControllerFactory()
 
 productRouter.post("/product", [adminMiddleware], productController.create);
-
+productRouter.delete("/product", [adminMiddleware], productController.delete);
+productRouter.patch("/product", [adminMiddleware], productController.update);
 
 
 
