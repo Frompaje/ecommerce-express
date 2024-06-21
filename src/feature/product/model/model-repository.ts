@@ -1,18 +1,18 @@
 import { Product } from "@prisma/client";
 
 
-export interface ProductCreateInput {
+export type ProductCreateInput = {
   name: string
   description?: string
   tags: string[]
   price: number
 }
 
-export interface ProductIdInput {
+export type ProductIdInput = {
   id: string
 }
 
-export interface ProductUpdate {
+export type ProductUpdate = {
   id: string
   name?: string
   description?: string
