@@ -1,5 +1,5 @@
 import { prisma } from "../../../lib/prisma";
-import { ModelProductRepository, ProductCreateInput, ProductDeleteInput } from "../model/model-repository";
+import { ModelProductRepository, ProductCreateInput, ProductIdInput, ProductUpdate } from "../model/model-repository";
 
 
 
@@ -15,7 +15,7 @@ export class PrismaProductRepository implements ModelProductRepository {
     })
   }
 
-  delete({ id }: ProductDeleteInput) {
+  delete({ id }: ProductIdInput) {
     return prisma.product.delete({
       where: {
         id
@@ -23,11 +23,24 @@ export class PrismaProductRepository implements ModelProductRepository {
     })
   }
 
-  findById({ id }: ProductDeleteInput) {
+  update({ id, name, description, tags, price }: ProductUpdate) {
+    return prisma.product.update({
+      data: {
+        name, description, tags, price
+      },
+      where: {
+        id
+      }
+    })
+  }
+
+  findById({ id }: ProductIdInput) {
     return prisma.product.findFirst({
       where: { id }
     })
   }
+
+
 }
 
 

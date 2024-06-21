@@ -8,14 +8,22 @@ export interface ProductCreateInput {
   price: number
 }
 
-export interface ProductDeleteInput {
+export interface ProductIdInput {
   id: string
 }
 
+export interface ProductUpdate {
+  id: string
+  name?: string
+  description?: string
+  tags?: string[]
+  price?: number
+}
 
 export interface ModelProductRepository {
   create({ name, description, tags, price }: ProductCreateInput): Promise<Product>
-  delete({ id }: ProductDeleteInput): Promise<Product>
-  findById({ id }: ProductDeleteInput): Promise<Product | null>
+  delete({ id }: ProductIdInput): Promise<Product>
+  update({ id }: ProductUpdate): Promise<Product>
+  findById({ id }: ProductIdInput): Promise<Product | null>
 }
 
