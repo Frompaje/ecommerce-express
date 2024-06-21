@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { UserAlreadyExistsError } from "../error/user-already-exists-error";
 import { ModelUserRepository, UserInputCreate, UserInputId, UserInputIdEmail, UserInputUpdate, UserInputUpdatePassword } from "../model/model-repository";
 
-export class UserProduct {
+export class UserService {
   constructor(private readonly userRepository: ModelUserRepository) { }
 
   async create({ name, email, password }: UserInputCreate) {

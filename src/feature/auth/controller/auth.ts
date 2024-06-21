@@ -4,7 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { ZodError, z } from "zod";
 import { env } from "../../../env";
 import { InvalidCredentialsError } from "../../../error/invalid-credential-error";
-import { UserDoesNotExist } from "../../../error/user-does-not-exist-error";
+import { UserDoesNotExist } from "../../user/error/user-does-not-exist-error";
 import { prisma } from "../../../lib/prisma";
 
 export class AuthController {

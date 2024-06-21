@@ -6,5 +6,5 @@ import authRoutes from "../feature/auth/router/auth";
 export function rootRouter(app: Express) {
   app.use("/auth", authRoutes);
   app.use("/product", productRouter);
-  app.use("/", userRoutes)
+  app.use("/user", userRoutes)
 }
