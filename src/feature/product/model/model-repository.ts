@@ -3,7 +3,7 @@ import { Product } from "@prisma/client";
 
 export interface ProductCreateInput {
   name: string
-  description: string
+  description?: string
   tags: string[]
   price: number
 }

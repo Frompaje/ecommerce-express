@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { ControllerProduct } from "../controller/product";
 import { adminMiddleware } from "../../../middlewares/admin";
+import { productControllerFactory } from "./product-controller-factory";
 
 const productRouter: Router = Router();
-const productController = new ControllerProduct();
+
+const productController = productControllerFactory()
 
 productRouter.post("/product", [adminMiddleware], productController.create);
 

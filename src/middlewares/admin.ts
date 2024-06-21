@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { env } from "../env";
-import { UnauthorizedError } from "../error/Unauthorized-error";
+import { UnauthorizedError } from "../feature/auth/error/Unauthorized-error";
 import { prisma } from "../lib/prisma";
 
 export async function adminMiddleware(

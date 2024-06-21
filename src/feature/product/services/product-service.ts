@@ -2,7 +2,7 @@ import { ModelProductRepository, ProductCreateInput, ProductIdInput, ProductUpda
 import { ProductAlreadyExist } from "../error/product-already-exists-error";
 import { ProductDoesNotExist } from "../error/product-does-not-exist-error";
 
-export class ServiceProduct {
+export class ProductService {
   constructor(private readonly productRepository: ModelProductRepository) { }
   async create({
     name, description, price, tags
