@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { Request, Response } from "express";
 import { ZodError, z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { UserAlreadyExistsError } from "../../../error/user-already-exists-error";
+import { UserAlreadyExistsError } from "../error/user-already-exists-error";
 
 export class UserController {
   async signUp(req: Request, res: Response) {
