@@ -23,6 +23,11 @@ export class PrismaProductRepository implements ModelProductRepository {
     })
   }
 
+  findById({ id }: ProductDeleteInput) {
+    return prisma.product.findFirst({
+      where: { id }
+    })
+  }
 }
 
 

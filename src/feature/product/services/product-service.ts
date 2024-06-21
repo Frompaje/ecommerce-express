@@ -2,7 +2,7 @@ import { ModelProductRepository, ProductCreateInput, ProductDeleteInput } from "
 import { ProductAlreadyExist } from "../error/product-already-exists-error";
 import { ProductDoesNotExist } from "../error/product-does-not-exist-error";
 
-export class ServiceProduct implements ModelProductRepository {
+export class ServiceProduct {
   constructor(private readonly productRepository: ModelProductRepository) { }
   async create({
     name, description, price, tags
@@ -21,15 +21,19 @@ export class ServiceProduct implements ModelProductRepository {
   async delete({
     id
   }: ProductDeleteInput) {
-    const product = await this.productRepository.delete({
+    const isProductExist = await this.productRepository.findById({
       id
     })
-    if (!product) {
+
+    if (!isProductExist) {
       throw new ProductDoesNotExist()
     }
 
+    const product = await this.productRepository.delete({
+      id
+    })
+
     return product
+
   }
-
-
 }
