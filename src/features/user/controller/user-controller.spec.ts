@@ -13,7 +13,7 @@ describe('User Controller', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      controllers:[UserController],
+      controllers: [UserController],
       providers: [
         CreateUserService,
         {
@@ -27,7 +27,7 @@ describe('User Controller', () => {
           provide: BcryptoRepository,
           useValue: {
             hash: jest.fn(),
-            compare:jest.fn()
+            compare: jest.fn(),
           },
         },
       ],
