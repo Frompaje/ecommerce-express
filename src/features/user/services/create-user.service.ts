@@ -12,21 +12,18 @@ export class CreateUserService {
   ) {}
 
   async execute({ name, password, email, address }: Input): Promise<Output> {
-    console.log(this.userRepository);
     const userExist = await this.userRepository.findByEmail({ email });
 
     if (userExist) {
       throw new ConflictException('User Already Exist');
     }
     const passwordHashed = await this.bscrypt.hash(password);
-
     const user = await this.userRepository.create({
       name,
       password: passwordHashed,
       email,
       address,
     });
-
     return { user };
   }
 }

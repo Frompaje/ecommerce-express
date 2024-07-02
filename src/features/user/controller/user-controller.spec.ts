@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 
 import { CreateUserService } from '../services/create-user.service';
 import { UserController } from './user.controller';
-import { BcryptoRepository } from '../../../infra/crypto/bcrypto.repository';
+import { BcryptoRepository } from '@/infra/crypto/bcrypto.repository';
 import { UserRepository } from '../repository/user.repository';
 import { UserMock } from '../services/factory/make.user.faker';
 
@@ -13,27 +13,29 @@ describe('User Controller', () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
+      controllers:[UserController],
       providers: [
         CreateUserService,
         {
           provide: UserRepository,
           useValue: {
-            findByEmail: jest.fn(),
             create: jest.fn(),
+            findByEmail: jest.fn(),
           },
         },
         {
           provide: BcryptoRepository,
           useValue: {
             hash: jest.fn(),
+            compare:jest.fn()
           },
         },
       ],
     }).compile();
 
     userController = module.get<UserController>(UserController);
-    bcrypt = module.get<BcryptoRepository>(BcryptoRepository);
     userServices = module.get<CreateUserService>(CreateUserService);
+    bcrypt = module.get<BcryptoRepository>(BcryptoRepository);
   });
 
   it('[POST] /user ', async () => {
