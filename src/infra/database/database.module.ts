@@ -7,7 +7,6 @@ import { BcryptoService } from 'src/infra/crypto/bcrypto.service';
 import { PrismaService } from 'src/infra/database/database.service';
 import { PrismaUserRepository } from './repository/prisma-user.repository';
 
-
 @Module({
   controllers: [UserController],
   providers: [
@@ -23,4 +22,4 @@ import { PrismaUserRepository } from './repository/prisma-user.repository';
     },
   ],
 })
-export class UserModule {}
+export class UserDataBaseModule {}

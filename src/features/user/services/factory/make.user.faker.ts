@@ -13,6 +13,7 @@ export class UserMock {
       password: hashSync(override?.password ?? faker.internet.password(), 8),
       createdAt: new Date(),
       updatedAt: new Date(),
+      role: 'User',
       ...override,
     };
   }

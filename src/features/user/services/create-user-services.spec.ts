@@ -40,7 +40,7 @@ describe('[Service Create] Should create a user', () => {
 
   describe('[Success]', () => {
     it('Should create a user', async () => {
-      const userMock = UserMock.create();
+      const userMock = UserMock.create({ name: 'Yan Edwards' });
       const userRepositorySpy = jest
         .spyOn(userRepository, 'create')
         .mockResolvedValue(userMock);
@@ -50,7 +50,7 @@ describe('[Service Create] Should create a user', () => {
       expect(user.name).toEqual('Yan Edwards');
     });
 
-    it.only('The user you create must have the password hashed', async () => {
+    it('The user you create must have the password hashed', async () => {
       const userMock = UserMock.create({ password: '123456' });
 
       jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed-password');
