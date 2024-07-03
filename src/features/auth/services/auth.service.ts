@@ -1,9 +1,13 @@
-import { BcryptoRepository } from '@/infra/crypto/bcrypto.repository';
-import { UserRepository } from '../../user/repository/user.repository';
-import { User } from '@/features/user/entities/user.entity';
-import { JwtService } from '@nestjs/jwt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EnvService } from '@/env/env.service';
+import { User } from '@/features/user/entities/user.entity';
+import { BcryptoRepository } from '@/infra/crypto/bcrypto.repository';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UserRepository } from '../../user/repository/user.repository';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +22,7 @@ export class AuthService {
     const user = await this.userRepository.findByEmail({ email });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials!');
+      throw new ConflictException('Invalid credentials!');
     }
 
     const isSamePassword = await this.bcryptRepository.compare(
@@ -27,7 +31,7 @@ export class AuthService {
     );
 
     if (!isSamePassword) {
-      throw new UnauthorizedException('Invalid credentials!');
+      throw new ConflictException('Invalid credentials!');
     }
 
     return { user };
@@ -35,6 +39,11 @@ export class AuthService {
 
   async createToken(user: User) {
     const payload = { sub: user.id };
+
+    if (!user) {
+      throw new ConflictException('Invalid credentials!');
+    }
+
     return {
       access_token: this.jwtService.sign(payload),
     };
